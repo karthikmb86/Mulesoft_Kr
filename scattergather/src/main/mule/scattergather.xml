@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="09750a7c-f095-4e7e-a1e9-a7c96ddb19fb" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<flow name="scattergatherFlow" doc:id="b8a07e96-0afa-465b-902a-f44610a6e7b6" >
+		<http:listener doc:name="Listener_Sender" doc:id="cf923560-1014-45ce-890e-d184f440a9eb" config-ref="HTTP_Listener_config" path="/scattergather_kr" allowedMethods="GET,POST"/>
+		<logger level="INFO" doc:name="Logger" doc:id="19a9cd36-591d-4c60-9f64-9f5004f71b2d" message="Before Scatter"/>
+		<ee:transform doc:name="Transform Message" doc:id="2b0dabe4-9733-4444-9cfc-72a0624a0503" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="dd297d4f-9868-4a9c-af3a-5fb7270189d1">
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="5eee0d9a-8d6a-4d06-9175-20432cc6a1be" message='Branch1'/>
+			</route>
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="f7500198-8660-44f5-9b95-b638c38371f7" message="Branch2"/>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="ab80ce2c-87ec-4281-9c24-049cf8bc970c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+flatten(payload..payload)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
