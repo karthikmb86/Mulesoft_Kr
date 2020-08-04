@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4039d952-7f72-4b40-ba27-fd515da8d248" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<flow name="trg_flightsFlow" doc:id="75db62c5-1284-4f17-865b-3c68c25e8408" >
+		<http:listener doc:name="Listener" doc:id="d7b5c0e6-c6d1-496e-a642-ba7f4ff084fb" config-ref="HTTP_Listener_config" path="/flights"/>
+		<set-payload value="Flight Info" doc:name="Set Payload" doc:id="7bf79861-48ee-4387-a82b-a02bcdd62e58" />
+	</flow>
+</mule>
