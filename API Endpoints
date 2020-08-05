@@ -1,0 +1,7 @@
+Local : http://localhost:8082/api/flights
+
+CloudHub : 
+http://trgflights-karthik.us-e2.cloudhub.io/api/flights
+http://trgflights-karthik.us-e2.cloudhub.io/api/flights/3
+
+API Manager : 
