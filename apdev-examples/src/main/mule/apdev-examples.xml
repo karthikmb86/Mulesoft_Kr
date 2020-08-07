@@ -5,12 +5,7 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="5ec93e77-2405-480a-8cec-e4896d701681" >
-		<http:listener-connection host="0.0.0.0" port="8082" />
-	</http:listener-config>
-	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="df82c531-f142-4a46-bccd-bb9bb1f94f7a" >
-		<http:request-connection host="localhost" port="8082" />
-	</http:request-config>
+
 	<flow name="helloFlow" doc:id="3f401f41-b131-492f-978b-42a4d7ee7d3e" >
 		<http:listener doc:name="GET /hello" doc:id="a000d1ff-11e4-423e-969f-fc2ac57082a3" config-ref="HTTP_Listener_config" path="/hello" allowedMethods="GET">
 			<http:response reasonPhrase="Success Kar">
@@ -22,11 +17,8 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 			</http:response>
 		</http:listener>
 		<flow-ref doc:name="subFlow" doc:id="7f28bc2b-e058-4231-9fd0-cd955b993881" name="subFlow"/>
-		<flow-ref doc:name="privateFlow" doc:id="4090053e-3493-424f-84b9-a7c27ea96f88" name="privateFlow" />
+		<vm:publish doc:name="VM Goodbye" doc:id="a86556a5-c46b-4346-848d-f3666cb8fb09" config-ref="VM_Config" queueName="goodbye"/>
 		<logger level="INFO" doc:name="Logger" doc:id="f4c36858-4431-4597-810d-3b55198b21a6" message="#['\nMessage: ' ++ payload]"/>
-	</flow>
-	<flow name="apdev-examplesFlow" doc:id="42fb308b-89f2-47ec-8b69-87357f06b31e" >
-		<http:listener doc:name="Listener" doc:id="48aa80f8-dc46-4aa0-bbfd-9bb73c564d5c" config-ref="HTTP_Listener_config" path="/abc"/>
 	</flow>
 	<flow name="privateFlow" doc:id="7e43d827-40aa-40d6-b773-8ad70c8f0e6a">
 		<http:request method="GET" doc:name="GET /goodbye" doc:id="4dbcc827-f6a2-4cc6-9b44-54d4a3c33830" path="/goodbye" config-ref="HTTP_Request_configuration">
@@ -41,8 +33,8 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 		<set-payload value="Hello" doc:name="Hello" doc:id="96927989-d344-4c0f-bf3e-8315b5ebc2bf" />
 	</sub-flow>
 	<flow name="goodbyeFlow" doc:id="098359e0-81b1-4563-b608-9bc01f870e37" >
-		<http:listener doc:name="GET /goodbye" doc:id="521ee3df-d372-4b35-8f76-2a5863e9c3bf" config-ref="HTTP_Listener_config" path="/goodbye" allowedMethods="GET"/>
-		<set-payload value="#[upper('goodBye') ++ ' ' ++ attributes.queryParams.fullName as String]" doc:name="goodBye" doc:id="5b3da865-17f5-458c-9a6a-0cad7ba6e63c" />
+		<vm:listener doc:name="VM Goodbye" doc:id="4fb57322-e8a5-4024-89df-6776da4cb3e7" config-ref="VM_Config" queueName="goodbye"/>
+		<set-payload value="#[upper('goodBye')]" doc:name="goodBye" doc:id="5b3da865-17f5-458c-9a6a-0cad7ba6e63c" />
 		<logger level="INFO" doc:name="Logger" doc:id="0485002e-a00c-4737-9882-3cc6d143241a" message="#[attributes.queryParams]"/>
 	</flow>
 </mule>
