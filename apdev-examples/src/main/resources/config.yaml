@@ -1,2 +1,8 @@
 http:
   port: "8082"
+  
+sfdc:
+  username: "karthikmb86@gmail.com"
+  password: "Wing#123"
+  token: "V0ZPkO4bYtT0vvRaZrQr3jKM"
+  

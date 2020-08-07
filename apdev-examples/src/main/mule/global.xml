@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 		</vm:queues>
 	</vm:config>
 	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="6d693ee0-ef3b-4a56-b20e-c11afc9dc2fc" >
-		<salesforce:basic-connection username="karthikmb86@gmail.com" password="Wing#123" securityToken="V0ZPkO4bYtT0vvRaZrQr3jKM" url="https://login.salesforce.com/services/Soap/u/48.0"/>
+		<salesforce:basic-connection username="${sfdc.username}" password="${sfdc.password}" securityToken="${sfdc.token}" url="https://login.salesforce.com/services/Soap/u/48.0"/>
 	</salesforce:sfdc-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="9a6808fd-0209-4778-86eb-38a2cf5c7792" file="config.yaml" />
 	
