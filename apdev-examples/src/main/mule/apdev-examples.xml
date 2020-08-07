@@ -25,6 +25,9 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 		<flow-ref doc:name="privateFlow" doc:id="4090053e-3493-424f-84b9-a7c27ea96f88" name="privateFlow" />
 		<logger level="INFO" doc:name="Logger" doc:id="f4c36858-4431-4597-810d-3b55198b21a6" message="#['\nMessage: ' ++ payload]"/>
 	</flow>
+	<flow name="apdev-examplesFlow" doc:id="42fb308b-89f2-47ec-8b69-87357f06b31e" >
+		<http:listener doc:name="Listener" doc:id="48aa80f8-dc46-4aa0-bbfd-9bb73c564d5c" config-ref="HTTP_Listener_config" path="/abc"/>
+	</flow>
 	<flow name="privateFlow" doc:id="7e43d827-40aa-40d6-b773-8ad70c8f0e6a">
 		<http:request method="GET" doc:name="GET /goodbye" doc:id="4dbcc827-f6a2-4cc6-9b44-54d4a3c33830" path="/goodbye" config-ref="HTTP_Request_configuration">
 			<http:query-params><![CDATA[#[output application/java
