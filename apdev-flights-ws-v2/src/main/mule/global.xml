@@ -4,8 +4,8 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<configuration-properties doc:name="Configuration properties" doc:id="4416bd8a-6497-41b1-936f-b33493223943" file="config.yaml" />
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f4124a8b-f6af-4fb2-ab28-b77c24db4904" >
+	<configuration-properties doc:name="Configuration properties" doc:id="23e3b622-82ba-44ba-b369-fd26ffeb9e7b" file="config.yaml" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="129c8d38-77e1-49d7-bf69-690f69af1e83" >
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
 </mule>
