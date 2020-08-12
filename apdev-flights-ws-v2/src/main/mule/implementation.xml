@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org/schema/mule/american-flights-api/current/mule-american-flights-api.xsd">
+	<sub-flow name="setCode" doc:id="5356c060-2e11-4857-8fb5-94d97c95ec0f" >
+		<set-variable value="#[message.attributes.queryParams.destination default 'SFO']" doc:name="code" doc:id="f75f8d9c-f66f-4197-b35f-361dcb89777a" variableName="code"/>
+	</sub-flow>
+	<flow name="getAmericanFlights" doc:id="44b18171-21b7-4de0-86a9-0a5eddb8f669" >
+		<http:listener doc:name="GET /american" doc:id="a30984c0-4f72-4695-8df1-39b793e2d588" config-ref="HTTP_Listener_config" path="/american" allowedMethods="GET"/>
+		<flow-ref doc:name="setCode" doc:id="b5dd8a49-3203-45c7-9d6a-fcfbdde46f21" name="setCode"/>
+		<american-flights-api:get-flights doc:name="Get flights" doc:id="2945f0a9-885c-47aa-821c-380b018548f1" config-ref="American_Flights_API_Config" client-id="${american.client_id}" client-secret="${american.client_secret}" destination="#[vars.code]"/>
+	</flow>
+	<flow name="getUnitedFlights" doc:id="f29b68e3-c497-4372-9f98-5c5dee5c8fad" >
+		<http:listener doc:name="GET /united" doc:id="0892ae63-a990-4404-ad97-def842c6607d" config-ref="HTTP_Listener_config" path="/united" allowedMethods="GET"/>
+		<flow-ref doc:name="Flow Reference" doc:id="46f11f2f-8685-4435-b2d2-d92f20cbcfaf" name="setCode"/>
+		<http:request method="GET" doc:name="Get Flights" doc:id="77a90f8f-4bca-4c76-8d34-9429b3837fdd" config-ref="HTTP_Request_configuration_training" path="/united/flights/{dest}">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"dest" : vars.code
+}]]]></http:uri-params>
+		</http:request>
+	</flow>
+</mule>

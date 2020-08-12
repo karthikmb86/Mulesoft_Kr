@@ -1,2 +1,16 @@
 http:
   port: "8082"
+  
+american:
+  host: "trgflights-api-karthik.us-e2.cloudhub.io"
+  port: "80"
+  basepath: "/"
+  protocol: "HTTP"
+  client_id: "3ee422df32654b76ae38d16ab5dd9067"
+  client_secret: "1AE624E391cB45B68ED9bAE5732Ee7bA"
+  
+training:
+  host: "mu.learn.mulesoft.com"
+  port: "80"
+  basepath: "/"
+  protocol: "HTTP"
