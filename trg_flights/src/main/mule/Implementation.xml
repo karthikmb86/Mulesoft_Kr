@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</db:config>
 	<flow name="getFlights" doc:id="ab1a7f54-7460-4062-9bf1-f615e6c893be" >
 		<http:listener doc:name="Listener" doc:id="f689bed8-db98-43a1-81af-eb061e1aaddf" path="/flights" allowedMethods="GET" config-ref="HTTP_Listener_config1"/>
-		<set-variable value="#[message.attributes.queryParams.destination]" doc:name="Get queryParam" doc:id="0a431f9b-32ef-4d1f-9475-0bba8072f0b0" variableName="destn"/>
+		<set-variable value="#[message.attributes.queryParams.destination default 'SFO']" doc:name="Get queryParam" doc:id="0a431f9b-32ef-4d1f-9475-0bba8072f0b0" variableName="destn"/>
 		<db:select doc:name="Select" doc:id="82a83984-38ef-406d-8ac6-2807c92bd872" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * FROM
 american]]></db:sql>
