@@ -17,6 +17,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</http:request-config>
 	<wsc:config name="Delta_Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="9e37aaa1-252f-4208-86d1-dd3b2126ec33" >
 		<wsc:connection wsdlLocation="${delta.wsdl}" service="${delta.service}" port="${delta.port}" >
+			<reconnection >
+				<reconnect />
+			</reconnection>
 			<wsc:web-service-security actor="http://schemas.xmlsoap.org/soap/actor/next" />
 		</wsc:connection>
 	</wsc:config>
@@ -35,7 +38,7 @@ output application/json
 				</ee:transform>
 				<set-variable value="400" doc:name="httpStatus" doc:id="e8c0f130-2f12-4bfd-8014-9ae9e6811edf" variableName="httpStatus"/>
 			</on-error-continue>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="19a1d09e-13c4-456e-b210-dd695a7b313e" type="WSC:CONNECTIVITY, WSC:INVALID_WSDL">
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="19a1d09e-13c4-456e-b210-dd695a7b313e" type="WSC:CONNECTIVITY, WSC:INVALID_WSDL">
 			<ee:transform doc:name="Data unavailable" doc:id="810fe03d-0c4a-4f2b-8d35-0dc7bdc096e8">
 				<ee:message>
 					<ee:set-payload><![CDATA[%dw 2.0
@@ -46,8 +49,8 @@ output application/json
 }]]></ee:set-payload>
 				</ee:message>
 			</ee:transform>
-		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f3a43d18-a1bb-47e1-b9f5-1d88a67a09a2" type="ANY">
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f3a43d18-a1bb-47e1-b9f5-1d88a67a09a2" type="ANY">
 			<ee:transform doc:name="Transform Message" doc:id="1d75473e-9554-4771-a9d7-8f5c0e2c6ec8" >
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
@@ -58,6 +61,6 @@ output application/json
 }]]></ee:set-payload>
 				</ee:message>
 			</ee:transform>
-		</on-error-propagate>
+		</on-error-continue>
 	</error-handler>
 </mule>

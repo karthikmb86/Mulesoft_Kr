@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8f1aa6af-4fec-497c-956e-6c80a06ce310" >
+		<http:listener-connection host="0.0.0.0" port="8083" />
+	</http:listener-config>
+	<flow name="quiztestFlow" doc:id="7805c4a3-6561-4eae-9691-006031c745ed" >
+		<http:listener doc:name="Listener" doc:id="e1ced611-811b-4a44-aba6-6e576c25cb2a" config-ref="HTTP_Listener_config" path="/quiz" allowedMethods="GET"/>
+		<set-payload value="Success - Begin main flow" doc:name="Success - Begin main flow" doc:id="5c4922af-7c85-45e8-95bc-d4e58fea7915" />
+		<validation:is-number doc:name="payload" doc:id="5bc58ab1-e24f-4260-918a-d79d3f5f6840" value="#[payload]" numberType="INTEGER" message="Validate - Payload is an Integer"/>
+		<set-payload value="Success - End main flow" doc:name="Success - End main flow" doc:id="def8b71c-6e69-42b7-aefb-a936b2d49454" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d1f6cd46-571e-4c36-99c4-07736ea2e261" >
+				<set-payload value="Error - main flow" doc:name="Error - main flow" doc:id="b1f196a6-a006-4012-b5ff-d5292b1dd79c" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

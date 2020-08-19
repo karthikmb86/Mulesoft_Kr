@@ -9,13 +9,6 @@ http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<flow name="getFlights" doc:id="f7d20a14-b1fe-4658-be10-4f273c4f110e" >
-		<http:listener doc:name="Listener" doc:id="c61d5648-d5ea-442c-84d7-34f63cdd1aae" config-ref="HTTP_Listener_config" path="/flights" allowedMethods="GET">
-			<http:response statusCode="#[vars.httpStatus default 200]">
-			</http:response>
-			<http:error-response statusCode="#[vars.httpStatus default 500]">
-				<http:body ><![CDATA[#[payload]]]></http:body>
-			</http:error-response>
-		</http:listener>
 		<set-variable value="#[message.attributes.queryParams.airline]" doc:name="airline" doc:id="f3eafe1c-a2b6-4501-bce9-b24bc88fb2cf" variableName="airline"/>
 		<flow-ref doc:name="setCode" doc:id="edcc7f99-7b75-452c-b59b-ac1bb81e0ea2" name="setCode"/>
 		<validation:is-true doc:name="Is valid destination" doc:id="1f104f66-2620-4536-8b30-12ca45cfc713" expression="#[['SFO','LAX','CLE','PDX','PDF'] contains  vars.code ]" message="#['Invalid destination' ++ ' ' ++ (vars.code default ' ')]">
@@ -71,7 +64,7 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="524fc476-e6ad-4c52-a7d8-b95ed638adbc" />
 		<error-handler >
-			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d91f870c-29d2-45f8-8c9f-0493d2997e1e" type="AMERICAN-FLIGHTS-API:BAD_REQUEST">
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d91f870c-29d2-45f8-8c9f-0493d2997e1e" type="AMERICAN-FLIGHTS-API:BAD_REQUEST">
 				<ee:transform doc:name="Transform Message" doc:id="f8d4d7d4-e59e-4ef3-89e3-e410680b302f">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
@@ -84,7 +77,7 @@ output application/json
 					</ee:message>
 				</ee:transform>
 				<set-variable value="200" doc:name="httpStatus" doc:id="039abcf1-c830-4101-8f4c-ada819ab5b55" variableName="httpStatus" />
-			</on-error-propagate>
+			</on-error-continue>
 		</error-handler>
 	</flow>
 	<flow name="getUnitedFlights" doc:id="f29b68e3-c497-4372-9f98-5c5dee5c8fad" >
