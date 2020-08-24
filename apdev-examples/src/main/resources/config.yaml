@@ -6,3 +6,13 @@ sfdc:
   password: "Wing#123"
   token: "V0ZPkO4bYtT0vvRaZrQr3jKM"
   
+file:
+  accountsDir: "C:/Karthik/Mulesoft/APDevFundamentals4.3_studentFiles_SP_30jul2020/APDevFundamentals4.3_studentFiles_SP_30jul2020/resources"
+  
+db:
+  host: "mudb.learn.mulesoft.com"
+  port: "3306"
+  user: "mule"
+  password: "mule"
+  database: "training"
+  
